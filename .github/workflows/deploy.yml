@@ -59,9 +59,9 @@ jobs:
 
             cd /home/ec2-user/cartech-ui
             git fetch --all
-            git reset --hard origin/main   # change to origin/master if needed
+            git reset --hard origin/master   
 
-            npm install --omit=dev   # use npm ci if you have package-lock.json
+            npm install --omit=dev   
 
             pm2 restart cartech-ui || pm2 start npm --name "cartech-ui" -- start
             pm2 save
