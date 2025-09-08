@@ -13,7 +13,28 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.40rem 0;
+  padding: 0.40rem 1rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .header-logo {
@@ -23,77 +44,131 @@
   vertical-align: middle;
 }
 
-.header-buttons {
-  display: flex;
+.header-button {
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background-color: rgba(38, 50, 56, 0.85);
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 12px rgba(19, 178, 151, 0.5);
-  position: relative;
-  z-index: 1001;
-  isolation: isolate;
+  gap: 0.25rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
-/* Dropdown button active/open state */
-.header-button.header-button-secondary:focus,
-.header-button.header-button-secondary:active,
-.header-button.header-button-secondary[aria-expanded="true"] {
-  background-color: #a084ca;
-  color: #1a1a2e;
-  border-color: #a084ca;
-  box-shadow: 0 0 8px #a084ca;
-  outline: none;
+.header-button:hover {
+  background-color: rgba(160, 132, 202, 0.7);
 }
 
-/* Dropdown menu */
-.relative > ul {
-  z-index: 1100;
-  isolation: isolate;
-  color: #1a1a1a; /* Dark font color for dropdown list text */
+.header-button-primary {
+  background: linear-gradient(90deg, #a084ca 0%, #6b46c1 100%);
+  color: white;
 }
 
-.relative > ul li {
-  color: #eeeaea; /* Dark font color for dropdown list items */
-  font-weight: 500;
+.header-button-primary:hover {
+  background: linear-gradient(90deg, #6b46c1 0%, #a084ca 100%);
 }
 
-.relative > ul li:hover {
-  background-color: #e2e8f0; /* Slightly darker hover background */
-  color: #1a1a1a;
+.header-button-secondary {
+  background-color: rgba(160, 132, 202, 0.3);
+  color: white;
 }
 
-/* Responsive Styles for Header */
-@media (max-width: 1024px) {
-  .mobile-hidden {
-    display: none !important;
+.header-button-secondary:hover {
+  background-color: rgba(160, 132, 202, 0.7);
+}
+
+.desktop-only {
+  display: flex;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* Mobile Menu Icon */
+.mobile-menu-icon {
+  display: none;
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90vw;
+  height: 70vh;
+  background-color: rgba(38, 56, 43, 0.95);
+  backdrop-filter: saturate(180%) blur(20px);
+  z-index: 900; /* Further lowered z-index to allow modals/forms to appear above */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.mobile-menu-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.close-menu-button {
+  position: absolute;
+  top: 40px;
+  right: 80px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 1000; /* Adjusted to be above mobile menu overlay */
+}
+
+/* Mobile Menu Items */
+  .mobile-menu-item {
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+    border-radius: 0.375rem;
+    background-color: rgba(160, 132, 202, 0.3);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4.9rem;
+    width: 80%;
+    box-sizing: border-box;
   }
-  .header-buttons {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+
+.mobile-menu-item:hover {
+  background-color: rgba(160, 132, 202, 0.7);
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-  .header-buttons {
-    gap: 1rem;
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
   }
-}
-
-@media (min-width: 1025px) {
-  .header-buttons {
-    gap: 1.5rem;
+  .mobile-only {
+    display: flex;
   }
-}
-
-@media (max-width: 640px) {
-  .header-container {
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  .header-logo {
+    width: 70px;
+    height: 60px;
   }
-  .header-buttons {
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  .header-button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+  .header-center {
+    flex-direction: column;
+    width: 100%;
+  }
+  .header-center > * {
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
 }

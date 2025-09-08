@@ -34,4 +34,37 @@
   .footer-grid {
     grid-template-columns: 1fr;
   }
+  .footer {
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  .footer-section-title {
+    font-size: 1.1rem;
+  }
+  .footer-contact-item {
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 480px) {
+  .footer {
+    padding: 1.5rem 0.5rem;
+  }
+  .footer-section-title {
+    font-size: 1rem;
+  }
+  .footer-contact-item {
+    font-size: 0.85rem;
+  }
+}
+@media (max-width: 375px) {
+  .footer {
+    padding: 1rem 0.5rem;
+  }
+  .footer-section-title {
+    font-size: 0.9rem;
+  }
+  .footer-contact-item {
+    font-size: 0.8rem;
+  }
 }

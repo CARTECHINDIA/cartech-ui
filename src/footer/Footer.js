@@ -19,7 +19,7 @@ function Footer() {
         </div>
         <div>
           <div className="footer-section-title">Contact</div>
-          <div className="footer-contact-item"><Mail className="w-4 h-4"/> support@cartechindia.example</div>
+          <div className="footer-contact-item"><Mail className="w-4 h-4"/> support@cartechindia.com</div>
           <div className="footer-contact-item"><Phone className="w-4 h-4"/> +91 99999 99999</div>
         </div>
       </div>
