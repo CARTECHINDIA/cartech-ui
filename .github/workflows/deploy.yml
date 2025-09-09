@@ -44,6 +44,38 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Get commit info
+        id: commit
+        run: |
+          echo "COMMIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          echo "COMMIT_MSG=$(git log -1 --pretty=format:'%s')" >> $GITHUB_ENV
+          echo "COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+          echo "COMMIT_DATE=$(git log -1 --pretty=format:'%cd')" >> $GITHUB_ENV
+
+      - name: Log build info to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USER }}
+          key: ${{ env.EC2_SSH_KEY }}
+          script: |
+            LOG_DIR="/var/log/frontend-deploy"
+            LOG_FILE="$LOG_DIR/deploy.log"
+
+            sudo mkdir -p "$LOG_DIR"
+            sudo touch "$LOG_FILE"
+            sudo chmod 666 "$LOG_FILE"
+
+            {
+              echo "[$(date)] Build Logged"
+              echo "Commit   : ${{ env.COMMIT_HASH }}"
+              echo "Author   : ${{ env.COMMIT_AUTHOR }}"
+              echo "Message  : ${{ env.COMMIT_MSG }}"
+              echo "Date     : ${{ env.COMMIT_DATE }}"
+              echo "GitHub Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              echo "--------------------------------------------------"
+            } >> "$LOG_FILE"
+
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -59,9 +91,9 @@ jobs:
 
             cd /home/ec2-user/cartech-ui
             git fetch --all
-            git reset --hard origin/master   
+            git reset --hard origin/master
 
-            npm install --omit=dev   
+            npm install --omit=dev
 
             pm2 restart cartech-ui || pm2 start npm --name "cartech-ui" -- start
             pm2 save
