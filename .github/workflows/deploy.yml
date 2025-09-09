@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Get commit info
         id: commit
         run: |
@@ -57,19 +57,24 @@ jobs:
         with:
           host: ${{ env.EC2_HOST }}
           username: ${{ env.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          key: ${{ env.EC2_SSH_KEY }}
           script: |
-            LOG_DIR="/var/log/frontend-deploy/"
+            LOG_DIR="/var/log/frontend-deploy"
             LOG_FILE="$LOG_DIR/deploy.log"
-            mkdir -p "$LOG_DIR"
 
-            echo "[$(date)] Build Logged" >> "$LOG_FILE"
-            echo "Commit   : ${{ env.COMMIT_HASH }}" >> "$LOG_FILE"
-            echo "Author   : ${{ env.COMMIT_AUTHOR }}" >> "$LOG_FILE"
-            echo "Message  : ${{ env.COMMIT_MSG }}" >> "$LOG_FILE"
-            echo "Date     : ${{ env.COMMIT_DATE }}" >> "$LOG_FILE"
-            echo "GitHub Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> "$LOG_FILE"
-            echo "--------------------------------------------------" >> "$LOG_FILE"
+            sudo mkdir -p "$LOG_DIR"
+            sudo touch "$LOG_FILE"
+            sudo chmod 666 "$LOG_FILE"
+
+            {
+              echo "[$(date)] Build Logged"
+              echo "Commit   : ${{ env.COMMIT_HASH }}"
+              echo "Author   : ${{ env.COMMIT_AUTHOR }}"
+              echo "Message  : ${{ env.COMMIT_MSG }}"
+              echo "Date     : ${{ env.COMMIT_DATE }}"
+              echo "GitHub Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              echo "--------------------------------------------------"
+            } >> "$LOG_FILE"
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.2.0
@@ -86,9 +91,9 @@ jobs:
 
             cd /home/ec2-user/cartech-ui
             git fetch --all
-            git reset --hard origin/master   
+            git reset --hard origin/master
 
-            npm install --omit=dev   
+            npm install --omit=dev
 
             pm2 restart cartech-ui || pm2 start npm --name "cartech-ui" -- start
             pm2 save
