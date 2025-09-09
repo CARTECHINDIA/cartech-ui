@@ -24,6 +24,7 @@ const LoginSignupForm = ({ onClose }) => {
     phone: '',
     email: '',
     password: '',
+    retypePassword: '',
     city: '',
     area: '',
     address: '',
@@ -86,6 +87,11 @@ const LoginSignupForm = ({ onClose }) => {
       } else {
         if (emailError) {
           setError('Please fix the email error before submitting');
+          setLoading(false);
+          return;
+        }
+        if (signupData.password !== signupData.retypePassword) {
+          setError('Passwords do not match');
           setLoading(false);
           return;
         }
@@ -206,6 +212,17 @@ const LoginSignupForm = ({ onClose }) => {
                   onChange={handleSignupChange}
                   required
                   placeholder="Enter your password"
+                />
+              </div>
+              <div className="form-group">
+                <label>Retype Password:</label>
+                <input
+                  type="password"
+                  name="retypePassword"
+                  value={signupData.retypePassword}
+                  onChange={handleSignupChange}
+                  required
+                  placeholder="Retype your password"
                 />
               </div>
               <div className="form-group">
