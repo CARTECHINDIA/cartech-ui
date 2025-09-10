@@ -3,7 +3,8 @@ import cartechlogo from './cartechlogo.png';
 import './App.css';
 import './header/Navbar.css';
 import './footer/Footer.css';
-import LoginSignupForm from './login/signup form/LoginSignupForm';
+import LoginForm from './login/LoginForm';
+import SignupForm from './signup-form/signupform/SignupForm';
 import SellCarForm from './buy&sell form/SellCarForm';
 import BuyCarForm from './buy&sell form/BuyCarForm';
 import React, { useMemo, useState, useEffect } from "react";
@@ -708,6 +709,7 @@ export default function App(){
   const [createOpen, setCreateOpen] = useState(false);
   const [viewMode, setViewMode] = useState("grid"); // "grid" or "compact"
   const [loginOpen, setLoginOpen] = useState(false); // New state for login modal
+  const [signupOpen, setSignupOpen] = useState(false); // New state for signup modal
   const [sellOpen, setSellOpen] = useState(false); // State for sell form modal
   const [buyOpen, setBuyOpen] = useState(false); // State for buy form modal
 
@@ -764,8 +766,10 @@ export default function App(){
       />
       <Hero query={query} setQuery={setQuery} />
 
-      {/* Render LoginSignupForm conditionally */}
-      {loginOpen && <LoginSignupForm onClose={() => setLoginOpen(false)} />}
+      {/* Render LoginForm conditionally */}
+      {loginOpen && <LoginForm onClose={() => setLoginOpen(false)} onCreateAccount={() => { setLoginOpen(false); setSignupOpen(true); }} />}
+      {/* Render SignupForm conditionally */}
+      {signupOpen && <SignupForm onClose={() => setSignupOpen(false)} onAlreadyHaveAccount={() => { setSignupOpen(false); setLoginOpen(true); }} />}
 
       <main className="max-w-7xl mx-auto px-4">
         <Filters filters={filters} setFilters={setFilters} />
