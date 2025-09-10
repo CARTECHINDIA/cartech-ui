@@ -4,7 +4,7 @@ import './App.css';
 import './header/Navbar.css';
 import './footer/Footer.css';
 import LoginForm from './login/LoginForm';
-import SignupForm from './signup-form/signupform/SignupForm';
+import SignupForm from './signup/SignupForm';
 import SellCarForm from './buy&sell form/SellCarForm';
 import BuyCarForm from './buy&sell form/BuyCarForm';
 import React, { useMemo, useState, useEffect } from "react";

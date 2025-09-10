@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SignupForm.css';
 
-const API_BASE_URL = 'http://localhost:3001/api'; // Adjust as needed
+const API_BASE_URL = 'http://98.80.120.96:8080/cartech'; // Backend API URL
 
 const SignupForm = ({ onClose, onAlreadyHaveAccount }) => {
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,7 @@ const SignupForm = ({ onClose, onAlreadyHaveAccount }) => {
     address: '',
     dob: '',  // New field for Date of Birth
     role: 'Buyer',  // New field for Sign Up as
+    username:'', // New field for username
     document: null  // New field for dealer document
   });
 
@@ -90,10 +91,11 @@ const SignupForm = ({ onClose, onAlreadyHaveAccount }) => {
         address: signupData.address,
         dob: signupData.dob,
         role: signupData.role,
+        username: signupData.username,
         document: signupData.document
       };
 
-      const response = await axios.post(`${API_BASE_URL}/signup`, payload);
+      const response = await axios.post(`${API_BASE_URL}/user/register`, payload);
       // Handle success, e.g., store token
       console.log('Signup successful:', response.data);
       onClose();
@@ -161,6 +163,17 @@ const SignupForm = ({ onClose, onAlreadyHaveAccount }) => {
             />
             {emailValidating && <span className="validating">Validating...</span>}
             {emailError && <span className="email-error">{emailError}</span>}
+          </div>
+          <div className="form-group">
+            <label>Username:</label>
+            <input
+              type="text"
+              name="username"
+              value={signupData.username}
+              onChange={handleSignupChange}
+              required
+              placeholder="Enter your username"
+            />
           </div>
           <div className="form-group">
             <label>Password:</label>
