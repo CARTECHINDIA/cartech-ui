@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './LoginForm.css';
 
-const API_BASE_URL = 'http://localhost:3001/api'; // Adjust as needed
+const API_BASE_URL = 'http://98.80.120.96:8080/cartech'; // Backend API URL
 
 const LoginForm = ({ onClose, onCreateAccount }) => {
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ const LoginForm = ({ onClose, onCreateAccount }) => {
     setError('');
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/login`, loginData);
+      const response = await axios.post(`${API_BASE_URL}/user/login`, loginData);
       // Handle success, e.g., store token
       console.log('Login successful:', response.data);
       onClose();
