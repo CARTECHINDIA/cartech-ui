@@ -142,28 +142,28 @@ formData.append('role', signupData.role);
           <div className="form-group">
             <label>First Name:</label>
             <input type="text" name="firstName" value={signupData.firstName}
-              onChange={handleSignupChange} required />
+              onChange={handleSignupChange} required placeholder="Enter your first name" />
           </div>
 
           {/* Last Name */}
           <div className="form-group">
             <label>Last Name:</label>
             <input type="text" name="lastName" value={signupData.lastName}
-              onChange={handleSignupChange} required />
+              onChange={handleSignupChange} required placeholder="Enter your last name" />
           </div>
 
           {/* Phone */}
           <div className="form-group">
             <label>Phone:</label>
             <input type="tel" name="phone" value={signupData.phone}
-              onChange={handleSignupChange} required />
+              onChange={handleSignupChange} required placeholder="Enter your phone number" />
           </div>
 
           {/* Email */}
           <div className="form-group">
             <label>Email:</label>
             <input type="email" name="email" value={signupData.email}
-              onChange={handleSignupChange} required />
+              onChange={handleSignupChange} required placeholder="Enter your email address" />
             {emailValidating && <span className="validating">Checking...</span>}
             {emailError && <span className="email-error">{emailError}</span>}
           </div>
@@ -172,42 +172,42 @@ formData.append('role', signupData.role);
           <div className="form-group">
             <label>Username:</label>
             <input type="text" name="username" value={signupData.username}
-              onChange={handleSignupChange} required />
+              onChange={handleSignupChange} required placeholder="Choose a username" />
           </div>
 
           {/* Password */}
           <div className="form-group">
             <label>Password:</label>
             <input type="password" name="password" value={signupData.password}
-              onChange={handleSignupChange} required />
+              onChange={handleSignupChange} required placeholder="Enter a password" />
           </div>
 
           {/* Retype Password */}
           <div className="form-group">
             <label>Retype Password:</label>
             <input type="password" name="retypePassword" value={signupData.retypePassword}
-              onChange={handleSignupChange} required />
+              onChange={handleSignupChange} required placeholder="Retype your password" />
           </div>
 
           {/* City */}
           <div className="form-group">
             <label>City:</label>
             <input type="text" name="city" value={signupData.city}
-              onChange={handleSignupChange} required />
+              onChange={handleSignupChange} required placeholder="Enter your city" />
           </div>
 
           {/* Area */}
           <div className="form-group">
             <label>Area:</label>
             <input type="text" name="area" value={signupData.area}
-              onChange={handleSignupChange} required />
+              onChange={handleSignupChange} required placeholder="Enter your area" />
           </div>
 
           {/* Address */}
           <div className="form-group">
             <label>Address:</label>
             <textarea name="address" value={signupData.address}
-              onChange={handleSignupChange} required rows="3"></textarea>
+              onChange={handleSignupChange} required rows="3" placeholder="Enter your address"></textarea>
           </div>
 
           {/* Date of Birth */}

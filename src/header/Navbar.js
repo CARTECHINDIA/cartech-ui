@@ -3,7 +3,7 @@ import cartechlogo from '../cartechlogo.png';
 import CityDropdown from '../CityDropdown';
 import { Search, Plus, Star, Heart, User, Menu, X } from "lucide-react";
 
-function Header({ onCreate, onLogin, onBuy, onSell, onLocationClick }) {
+function Header({ onCreate, onLogin, onBuy, onSell, onLocationClick, user, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -28,20 +28,35 @@ function Header({ onCreate, onLogin, onBuy, onSell, onLocationClick }) {
             <button className="header-button header-button-secondary">
               <Star className="w-4 h-4"/>Featured
             </button>
-            <button className="header-button header-button-secondary">
-              <Heart className="w-4 h-4"/>Saved
-            </button>
+            {user && (
+              <button className="header-button header-button-secondary">
+                <Heart className="w-4 h-4"/>Saved
+              </button>
+            )}
           </div>
           <div className="header-right desktop-only">
-            <button onClick={() => {
-              console.log("Login button in Header clicked - opening modal");
-              onLogin();
-            }} className="header-button header-button-secondary">
-              <User className="w-4 h-4"/>Login
-            </button>
-            <button onClick={onCreate} className="header-button header-button-primary">
-              <Plus className="w-4 h-4"/>Post Listing
-            </button>
+            {!user ? (
+              <button onClick={() => {
+                console.log("Login button in Header clicked - opening modal");
+                onLogin();
+              }} className="header-button header-button-secondary">
+                <User className="w-4 h-4"/>Login
+              </button>
+            ) : (
+              <>
+                <button onClick={() => {
+                  if (window.confirm("Are you sure you want to logout?")) {
+                    console.log("Logout button clicked");
+                    onLogout();
+                  }
+                }} className="header-button header-button-secondary logout-button">
+                  Logout
+                </button>
+                <button onClick={onCreate} className="header-button header-button-primary">
+                  <Plus className="w-4 h-4"/>List Car
+                </button>
+              </>
+            )}
           </div>
           <div className="mobile-menu-icon mobile-only">
             <button onClick={toggleMobileMenu} className="header-button header-button-secondary">
@@ -73,21 +88,34 @@ function Header({ onCreate, onLogin, onBuy, onSell, onLocationClick }) {
             <button className="header-button header-button-secondary mobile-menu-item">
               <Star className="w-4 h-4"/>Featured
             </button>
-            <button className="header-button header-button-secondary mobile-menu-item">
-              <Heart className="w-4 h-4"/>Saved
-            </button>
-            <button onClick={() => {
-              toggleMobileMenu();
-              setTimeout(() => onLogin(), 100); // Close menu first, then open form
-            }} className="header-button header-button-secondary mobile-menu-item">
-              <User className="w-4 h-4"/>Login
-            </button>
-            <button onClick={() => {
-              toggleMobileMenu();
-              setTimeout(() => onCreate(), 100);
-            }} className="header-button header-button-primary mobile-menu-item">
-              <Plus className="w-4 h-4"/>Post Listing
-            </button>
+            {user && (
+              <button className="header-button header-button-secondary mobile-menu-item">
+                <Heart className="w-4 h-4"/>Saved
+              </button>
+            )}
+            {!user ? (
+              <button onClick={() => {
+                toggleMobileMenu();
+                setTimeout(() => onLogin(), 100); // Close menu first, then open form
+              }} className="header-button header-button-secondary mobile-menu-item">
+                <User className="w-4 h-4"/>Login
+              </button>
+            ) : (
+              <>
+                <button onClick={() => {
+                  toggleMobileMenu();
+                  setTimeout(() => onLogout(), 100);
+                }} className="header-button header-button-secondary mobile-menu-item logout-button">
+                  Logout
+                </button>
+                <button onClick={() => {
+                  toggleMobileMenu();
+                  setTimeout(() => onCreate(), 100);
+                }} className="header-button header-button-primary mobile-menu-item">
+                  <Plus className="w-4 h-4"/>List Car
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}

@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { X, Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
+import './ListNewCar.css';
 
-const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
+const MAKES = ["Any", "Toyota", "Hyundai", "Tata", "Maruti", "Honda", "Mahindra"];
+const FUELS = ["Any", "Petrol", "Diesel","CNG", "Electric"];
+const TRANSMISSIONS = ["Any", "Manual", "Automatic", "CVT"];
+
+function CreateListingDialog({ open, onOpenChange, onCreate }){
   const [form, setForm] = useState({
     make: "",
     model: "",
@@ -12,8 +17,6 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
     transmission: "Manual",
     location: "",
     image: "",
-    condition: "Used",
-    description: "",
     brand: "",
     variant: "",
     fueltype: "",
@@ -39,8 +42,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
     color_option: ""
   });
   const [isLoading, setIsLoading] = useState(false);
-
-  const set = (patch) => setForm((f) => ({ ...f, ...patch }));
+  const set = (patch)=>setForm((f)=>({...f, ...patch}));
 
   const handleSubmit = () => {
     setIsLoading(true);
@@ -56,12 +58,12 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
         fuel: form.fuel,
         transmission: form.transmission,
         location: form.location || "",
-        condition: form.condition,
+        condition: "Used",
         featured: false,
         images: [form.image || "https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1200&auto=format&fit=crop"],
-        description: form.description || `${form.year} ${form.make} ${form.model} listed for sale.`,
+        description: `${form.year} ${form.make} ${form.model} listed via DriveMart.`,
         seller: { name: "You", phone: "", email: "" },
-        postedAt: new Date().toISOString().slice(0, 10),
+        postedAt: new Date().toISOString().slice(0,10),
         brand: form.brand || "",
         variant: form.variant || "",
         fueltype: form.fueltype || "",
@@ -86,152 +88,118 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
         Ground_clearance_mm: form.Ground_clearance_mm || "",
         color_option: form.color_option || ""
       };
-      onSubmit(newCar);
+      onCreate(newCar);
       setIsLoading(false);
       onOpenChange(false);
     }, 1000);
   };
 
-  const FUELS = ["Petrol", "Diesel", "CNG", "Electric"];
-  const TRANSMISSIONS = ["Manual", "Automatic", "CVT"];
-  const CONDITIONS = ["Used", "New", "Certified Pre-owned"];
-
   return (
-    <div className={`modal-overlay sell-car-modal ${!open ? 'hidden' : ''}`}>
+    <div className={`modal-overlay create-listing-modal ${!open ? 'hidden' : ''}`}>
       <div className="modal-content">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h2 className="text-lg font-semibold">Sell Your Car</h2>
-            <p className="text-sm text-gray-600">List your car for sale with detailed information</p>
+            <h2 className="text-lg font-semibold">Create Listing</h2>
+            <p className="text-sm text-gray-600">Add your car details. You can edit later.</p>
           </div>
-          <button onClick={() => onOpenChange(false)} className="text-gray-500 hover:text-gray-700">
+          <button onClick={() => { console.log("CreateListingDialog close button clicked"); onOpenChange(false); }} className="text-gray-500 hover:text-gray-700">
             <X className="w-5 h-5" />
           </button>
         </div>
-        
         <div className={`create-listing-form-grid ${isLoading ? 'loading' : ''}`}>
           <div className="filter-group">
-            <label className="filter-label">Make *</label>
-            <input 
-              value={form.make} 
-              onChange={(e) => set({ make: e.target.value })} 
-              placeholder="e.g. Toyota, Honda, Maruti"
+            <label className="filter-label">Make</label>
+            <input
+              value={form.make}
+              onChange={(e)=>set({make:e.target.value})}
+              placeholder="e.g. Toyota"
               className="filter-input"
               disabled={isLoading}
-              required
             />
           </div>
-          
           <div className="filter-group">
-            <label className="filter-label">Model *</label>
-            <input 
-              value={form.model} 
-              onChange={(e) => set({ model: e.target.value })} 
-              placeholder="e.g. Corolla, City, Baleno"
+            <label className="filter-label">Model</label>
+            <input
+              value={form.model}
+              onChange={(e)=>set({model:e.target.value})}
+              placeholder="e.g. Corolla"
               className="filter-input"
               disabled={isLoading}
-              required
             />
           </div>
-          
           <div className="filter-group">
-            <label className="filter-label">Year *</label>
-            <input 
-              type="number" 
-              value={form.year} 
-              onChange={(e) => set({ year: e.target.value })}
+            <label className="filter-label">Year</label>
+            <input
+              type="number"
+              value={form.year}
+              onChange={(e)=>set({year:e.target.value})}
               className="filter-input"
               disabled={isLoading}
               min="1990"
               max={new Date().getFullYear() + 1}
-              required
             />
           </div>
-          
           <div className="filter-group">
-            <label className="filter-label">Price (INR) *</label>
-            <input 
-              type="number" 
-              value={form.price} 
-              onChange={(e) => set({ price: e.target.value })}
+            <label className="filter-label">Price (INR)</label>
+            <input
+              type="number"
+              value={form.price}
+              onChange={(e)=>set({price:e.target.value})}
               className="filter-input"
               disabled={isLoading}
               min="0"
               step="1000"
-              required
             />
           </div>
-          
           <div className="filter-group">
-            <label className="filter-label">Mileage (km) *</label>
-            <input 
-              type="number" 
-              value={form.mileage} 
-              onChange={(e) => set({ mileage: e.target.value })}
+            <label className="filter-label">Mileage (km)</label>
+            <input
+              type="number"
+              value={form.mileage}
+              onChange={(e)=>set({mileage:e.target.value})}
               className="filter-input"
               disabled={isLoading}
               min="0"
               step="1000"
-              required
             />
           </div>
-          
           <div className="filter-group">
-            <label className="filter-label">Fuel Type *</label>
-            <select 
-              value={form.fuel} 
-              onChange={(e) => set({ fuel: e.target.value })}
+            <label className="filter-label">Fuel</label>
+            <select
+              value={form.fuel}
+              onChange={(e)=>set({fuel:e.target.value})}
               className="filter-input"
               disabled={isLoading}
-              required
             >
-              {FUELS.map((f) => (<option key={f} value={f}>{f}</option>))}
+              {FUELS.filter(f=>f!=="Any").map((f)=>(<option key={f} value={f}>{f}</option>))}
             </select>
           </div>
-          
           <div className="filter-group">
-            <label className="filter-label">Transmission *</label>
-            <select 
-              value={form.transmission} 
-              onChange={(e) => set({ transmission: e.target.value })}
+            <label className="filter-label">Transmission</label>
+            <select
+              value={form.transmission}
+              onChange={(e)=>set({transmission:e.target.value})}
               className="filter-input"
               disabled={isLoading}
-              required
             >
-              {TRANSMISSIONS.map((t) => (<option key={t} value={t}>{t}</option>))}
+              {TRANSMISSIONS.filter(t=>t!=="Any").map((t)=>(<option key={t} value={t}>{t}</option>))}
             </select>
           </div>
-          
           <div className="filter-group">
-            <label className="filter-label">Condition *</label>
-            <select 
-              value={form.condition} 
-              onChange={(e) => set({ condition: e.target.value })}
-              className="filter-input"
-              disabled={isLoading}
-              required
-            >
-              {CONDITIONS.map((c) => (<option key={c} value={c}>{c}</option>))}
-            </select>
-          </div>
-          
-          <div className="filter-group">
-            <label className="filter-label">Location *</label>
-            <input 
-              value={form.location} 
-              onChange={(e) => set({ location: e.target.value })} 
+            <label className="filter-label">Location</label>
+            <input
+              value={form.location}
+              onChange={(e)=>set({location:e.target.value})}
               placeholder="City, State"
               className="filter-input"
               disabled={isLoading}
-              required
             />
           </div>
-          
           <div className="filter-group">
             <label className="filter-label">Image URL</label>
             <input
               value={form.image}
-              onChange={(e) => set({ image: e.target.value })}
+              onChange={(e)=>set({image:e.target.value})}
               placeholder="https://..."
               className="filter-input"
               disabled={isLoading}
@@ -242,7 +210,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">Brand</label>
             <input
               value={form.brand}
-              onChange={(e) => set({ brand: e.target.value })}
+              onChange={(e)=>set({brand:e.target.value})}
               placeholder="e.g. Toyota"
               className="filter-input"
               disabled={isLoading}
@@ -253,7 +221,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">Variant</label>
             <input
               value={form.variant}
-              onChange={(e) => set({ variant: e.target.value })}
+              onChange={(e)=>set({variant:e.target.value})}
               placeholder="e.g. VX"
               className="filter-input"
               disabled={isLoading}
@@ -264,7 +232,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">Fuel Type</label>
             <input
               value={form.fueltype}
-              onChange={(e) => set({ fueltype: e.target.value })}
+              onChange={(e)=>set({fueltype:e.target.value})}
               placeholder="e.g. Petrol"
               className="filter-input"
               disabled={isLoading}
@@ -275,7 +243,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">Body Type</label>
             <input
               value={form.body_type}
-              onChange={(e) => set({ body_type: e.target.value })}
+              onChange={(e)=>set({body_type:e.target.value})}
               placeholder="e.g. Sedan"
               className="filter-input"
               disabled={isLoading}
@@ -286,7 +254,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">Segment</label>
             <input
               value={form.segment}
-              onChange={(e) => set({ segment: e.target.value })}
+              onChange={(e)=>set({segment:e.target.value})}
               placeholder="e.g. Compact"
               className="filter-input"
               disabled={isLoading}
@@ -298,7 +266,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.engine_cc}
-              onChange={(e) => set({ engine_cc: e.target.value })}
+              onChange={(e)=>set({engine_cc:e.target.value})}
               placeholder="e.g. 1200"
               className="filter-input"
               disabled={isLoading}
@@ -310,7 +278,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.battery_kWh}
-              onChange={(e) => set({ battery_kWh: e.target.value })}
+              onChange={(e)=>set({battery_kWh:e.target.value})}
               placeholder="e.g. 40"
               className="filter-input"
               disabled={isLoading}
@@ -322,7 +290,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.power_bhp}
-              onChange={(e) => set({ power_bhp: e.target.value })}
+              onChange={(e)=>set({power_bhp:e.target.value})}
               placeholder="e.g. 100"
               className="filter-input"
               disabled={isLoading}
@@ -334,7 +302,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.Torque_Nm}
-              onChange={(e) => set({ Torque_Nm: e.target.value })}
+              onChange={(e)=>set({Torque_Nm:e.target.value})}
               placeholder="e.g. 150"
               className="filter-input"
               disabled={isLoading}
@@ -345,7 +313,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">Drivetrain</label>
             <input
               value={form.Drivetrain}
-              onChange={(e) => set({ Drivetrain: e.target.value })}
+              onChange={(e)=>set({Drivetrain:e.target.value})}
               placeholder="e.g. FWD"
               className="filter-input"
               disabled={isLoading}
@@ -357,7 +325,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.seating}
-              onChange={(e) => set({ seating: e.target.value })}
+              onChange={(e)=>set({seating:e.target.value})}
               placeholder="e.g. 5"
               className="filter-input"
               disabled={isLoading}
@@ -368,7 +336,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">Efficiency Unit</label>
             <input
               value={form.Efficiency_Unit}
-              onChange={(e) => set({ Efficiency_Unit: e.target.value })}
+              onChange={(e)=>set({Efficiency_Unit:e.target.value})}
               placeholder="e.g. kmpl"
               className="filter-input"
               disabled={isLoading}
@@ -380,7 +348,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.Ex_Showroom_price_lakh}
-              onChange={(e) => set({ Ex_Showroom_price_lakh: e.target.value })}
+              onChange={(e)=>set({Ex_Showroom_price_lakh:e.target.value})}
               placeholder="e.g. 5.5"
               className="filter-input"
               disabled={isLoading}
@@ -392,7 +360,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.Launch_year}
-              onChange={(e) => set({ Launch_year: e.target.value })}
+              onChange={(e)=>set({Launch_year:e.target.value})}
               placeholder="e.g. 2020"
               className="filter-input"
               disabled={isLoading}
@@ -403,7 +371,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">Market Status</label>
             <input
               value={form.Market_status}
-              onChange={(e) => set({ Market_status: e.target.value })}
+              onChange={(e)=>set({Market_status:e.target.value})}
               placeholder="e.g. Active"
               className="filter-input"
               disabled={isLoading}
@@ -414,7 +382,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">BS6 Phase</label>
             <input
               value={form.BS6_phase}
-              onChange={(e) => set({ BS6_phase: e.target.value })}
+              onChange={(e)=>set({BS6_phase:e.target.value})}
               placeholder="e.g. BS6"
               className="filter-input"
               disabled={isLoading}
@@ -426,7 +394,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.Safety_rating_stars}
-              onChange={(e) => set({ Safety_rating_stars: e.target.value })}
+              onChange={(e)=>set({Safety_rating_stars:e.target.value})}
               placeholder="e.g. 5"
               className="filter-input"
               disabled={isLoading}
@@ -438,7 +406,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.Length_mm}
-              onChange={(e) => set({ Length_mm: e.target.value })}
+              onChange={(e)=>set({Length_mm:e.target.value})}
               placeholder="e.g. 4000"
               className="filter-input"
               disabled={isLoading}
@@ -450,7 +418,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.Width_mm}
-              onChange={(e) => set({ Width_mm: e.target.value })}
+              onChange={(e)=>set({Width_mm:e.target.value})}
               placeholder="e.g. 1700"
               className="filter-input"
               disabled={isLoading}
@@ -462,7 +430,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.height_mm}
-              onChange={(e) => set({ height_mm: e.target.value })}
+              onChange={(e)=>set({height_mm:e.target.value})}
               placeholder="e.g. 1500"
               className="filter-input"
               disabled={isLoading}
@@ -474,7 +442,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.Wheelbase_mm}
-              onChange={(e) => set({ Wheelbase_mm: e.target.value })}
+              onChange={(e)=>set({Wheelbase_mm:e.target.value})}
               placeholder="e.g. 2500"
               className="filter-input"
               disabled={isLoading}
@@ -486,7 +454,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <input
               type="number"
               value={form.Ground_clearance_mm}
-              onChange={(e) => set({ Ground_clearance_mm: e.target.value })}
+              onChange={(e)=>set({Ground_clearance_mm:e.target.value})}
               placeholder="e.g. 170"
               className="filter-input"
               disabled={isLoading}
@@ -497,36 +465,26 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             <label className="filter-label">Color Option</label>
             <input
               value={form.color_option}
-              onChange={(e) => set({ color_option: e.target.value })}
+              onChange={(e)=>set({color_option:e.target.value})}
               placeholder="e.g. Red, Blue"
               className="filter-input"
               disabled={isLoading}
             />
           </div>
-
-          <div className="filter-group col-span-full">
-            <label className="filter-label">Description</label>
-            <textarea
-              value={form.description}
-              onChange={(e) => set({ description: e.target.value })}
-              placeholder="Describe your car's condition, features, and any additional details..."
-              className="filter-input"
-              rows="3"
-              disabled={isLoading}
-            />
-          </div>
         </div>
-        
         <div className="flex gap-2 justify-end mt-6 modal-actions">
-          <button 
-            onClick={() => onOpenChange(false)} 
+          <button
+            onClick={() => {
+              console.log("Cancel button clicked");
+              onOpenChange(false);
+            }}
             className="header-button header-button-secondary"
             disabled={isLoading}
           >
             Cancel
           </button>
-          <button 
-            onClick={handleSubmit} 
+          <button
+            onClick={handleSubmit}
             className="header-button header-button-primary"
             disabled={isLoading}
           >
@@ -537,7 +495,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
               </>
             ) : (
               <>
-                <Plus className="w-4 h-4"/> List Car for Sale
+                <Plus className="w-4 h-4"/> Publish
               </>
             )}
           </button>
@@ -545,6 +503,6 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
       </div>
     </div>
   );
-};
+}
 
-export default SellCarForm;
+export default CreateListingDialog;
