@@ -1,6 +1,0 @@
-- [x] Update SellCarForm.js: Add new fields to form state
-- [x] Update SellCarForm.js: Add input fields in JSX
-- [x] Update SellCarForm.js: Include new fields in handleSubmit newCar object
-- [x] Update ListNewCar.js: Add new fields to form state
-- [x] Update ListNewCar.js: Add input fields in JSX
-- [x] Update ListNewCar.js: Include new fields in handleSubmit newCar object

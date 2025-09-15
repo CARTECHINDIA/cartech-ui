@@ -65,6 +65,11 @@
   background: rgba(243, 242, 242, 0.2);
 }
 
+.filter-input::placeholder {
+  color: #ffffff;
+  opacity: 0.7;
+}
+
 .modal-actions {
   display: flex;
   justify-content: flex-end;
