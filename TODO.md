@@ -1,0 +1,5 @@
+- [x] Modify src/App.js to add onLoginSuccess prop to LoginForm component
+- [x] Modify src/login/LoginForm.js to accept onLoginSuccess prop and call it on successful login
+- [x] Remove Bid button from src/header/Navbar.js (desktop and mobile)
+- [x] Remove bidOpen state, onBid prop, BidForm import and component from src/App.js
+- [x] Test the app to ensure Bid button is removed
