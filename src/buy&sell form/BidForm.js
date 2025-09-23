@@ -7,6 +7,7 @@ const BidForm = ({ open, onOpenChange }) => {
   const [form, setForm] = useState({
     carSellingId: '',
     startAmount: '',
+    minIncrement: '', 
     startTime: '',
     endTime: '',
     status: 'SCHEDULED',
@@ -23,6 +24,7 @@ const BidForm = ({ open, onOpenChange }) => {
       const payload = {
         carSellingId: Number(form.carSellingId),
         startAmount: Number(form.startAmount),
+        minIncrement: Number(form.minIncrement),
         startTime: form.startTime,
         endTime: form.endTime,
         status: form.status,
@@ -76,6 +78,21 @@ const BidForm = ({ open, onOpenChange }) => {
               required
               min="0"
               step="100"
+            />
+          </div>
+
+          <div className="filter-group">
+            <label className="filter-label">Min Increment (INR) *</label>
+            <input
+              type="number"
+              value={form.minIncrement}
+              onChange={(e) => set({ minIncrement: e.target.value })}
+              className="filter-input"
+              disabled={isLoading}
+              required
+              min="0"
+              step="100"
+              placeholder="e.g. 5000"
             />
           </div>
 
