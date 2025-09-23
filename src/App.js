@@ -4,10 +4,15 @@ import './App.css';
 import './header/Navbar.css';
 import './footer/Footer.css';
 import LoginForm from './login/LoginForm';
+
 import SignupForm from './signup/SignupForm';
 import SellCarForm from './buy&sell form/SellCarForm';
 import BuyCarForm from './buy&sell form/BuyCarForm';
+
 import BidForm from './buy&sell form/BidForm';
+=======
+import CreateListingDialog from './list-new-car/ListNewCar';
+
 import React, { useMemo, useState, useEffect } from "react";
 import CityDropdown from './CityDropdown';
 import Header from './header/Navbar';
@@ -497,192 +502,6 @@ function Spec({ label, value, icon }){
   );
 }
 
-function CreateListingDialog({ open, onOpenChange, onCreate }){
-  const [form, setForm] = useState({
-    make: "",
-    model: "",
-    year: new Date().getFullYear(),
-    price: 0,
-    mileage: 0,
-    fuel: "Petrol",
-    transmission: "Manual",
-    location: "",
-    image: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const set = (patch)=>setForm((f)=>({...f, ...patch}));
-
-  const handleSubmit = () => {
-    setIsLoading(true);
-    // Simulate API call delay
-    setTimeout(() => {
-      const newCar = {
-        id: Math.random(),
-        make: form.make || "Custom",
-        model: form.model || "Model",
-        year: Number(form.year) || new Date().getFullYear(),
-        price: Number(form.price) || 0,
-        mileage: Number(form.mileage) || 0,
-        fuel: form.fuel,
-        transmission: form.transmission,
-        location: form.location || "",
-        condition: "Used",
-        featured: false,
-        images: [form.image || "https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1200&auto=format&fit=crop"],
-        description: `${form.year} ${form.make} ${form.model} listed via DriveMart.`,
-        seller: { name: "You", phone: "", email: "" },
-        postedAt: new Date().toISOString().slice(0,10),
-      };
-      onCreate(newCar);
-      setIsLoading(false);
-      onOpenChange(false);
-    }, 1000);
-  };
-
-  return (
-    <div className={`modal-overlay create-listing-modal ${!open ? 'hidden' : ''}`}>
-      <div className="modal-content">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h2 className="text-lg font-semibold">Create Listing</h2>
-            <p className="text-sm text-gray-600">Add your car details. You can edit later.</p>
-          </div>
-          <button onClick={() => { console.log("CreateListingDialog close button clicked"); onOpenChange(false); }} className="text-gray-500 hover:text-gray-700">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-        <div className={`create-listing-form-grid ${isLoading ? 'loading' : ''}`}>
-          <div className="filter-group">
-            <label className="filter-label">Make</label>
-            <input 
-              value={form.make} 
-              onChange={(e)=>set({make:e.target.value})} 
-              placeholder="e.g. Toyota" 
-              className="filter-input"
-              disabled={isLoading}
-            />
-          </div>
-          <div className="filter-group">
-            <label className="filter-label">Model</label>
-            <input 
-              value={form.model} 
-              onChange={(e)=>set({model:e.target.value})} 
-              placeholder="e.g. Corolla"
-              className="filter-input"
-              disabled={isLoading}
-            />
-          </div>
-          <div className="filter-group">
-            <label className="filter-label">Year</label>
-            <input 
-              type="number" 
-              value={form.year} 
-              onChange={(e)=>set({year:e.target.value})}
-              className="filter-input"
-              disabled={isLoading}
-              min="1990"
-              max={new Date().getFullYear() + 1}
-            />
-          </div>
-          <div className="filter-group">
-            <label className="filter-label">Price (INR)</label>
-            <input 
-              type="number" 
-              value={form.price} 
-              onChange={(e)=>set({price:e.target.value})}
-              className="filter-input"
-              disabled={isLoading}
-              min="0"
-              step="1000"
-            />
-          </div>
-          <div className="filter-group">
-            <label className="filter-label">Mileage (km)</label>
-            <input 
-              type="number" 
-              value={form.mileage} 
-              onChange={(e)=>set({mileage:e.target.value})}
-              className="filter-input"
-              disabled={isLoading}
-              min="0"
-              step="1000"
-            />
-          </div>
-          <div className="filter-group">
-            <label className="filter-label">Fuel</label>
-            <select 
-              value={form.fuel} 
-              onChange={(e)=>set({fuel:e.target.value})}
-              className="filter-input"
-              disabled={isLoading}
-            >
-              {FUELS.filter(f=>f!=="Any").map((f)=>(<option key={f} value={f}>{f}</option>))}
-            </select>
-          </div>
-          <div className="filter-group">
-            <label className="filter-label">Transmission</label>
-            <select 
-              value={form.transmission} 
-              onChange={(e)=>set({transmission:e.target.value})}
-              className="filter-input"
-              disabled={isLoading}
-            >
-              {TRANSMISSIONS.filter(t=>t!=="Any").map((t)=>(<option key={t} value={t}>{t}</option>))}
-            </select>
-          </div>
-          <div className="filter-group">
-            <label className="filter-label">Location</label>
-            <input 
-              value={form.location} 
-              onChange={(e)=>set({location:e.target.value})} 
-              placeholder="City, State"
-              className="filter-input"
-              disabled={isLoading}
-            />
-          </div>
-          <div className="filter-group">
-            <label className="filter-label">Image URL</label>
-            <input 
-              value={form.image} 
-              onChange={(e)=>set({image:e.target.value})} 
-              placeholder="https://..."
-              className="filter-input"
-              disabled={isLoading}
-            />
-          </div>
-        </div>
-        <div className="flex gap-2 justify-end mt-6 modal-actions">
-          <button 
-            onClick={() => {
-              console.log("Cancel button clicked");
-              onOpenChange(false);
-            }} 
-            className="header-button header-button-secondary"
-            disabled={isLoading}
-          >
-            Cancel
-          </button>
-          <button 
-            onClick={handleSubmit} 
-            className="header-button header-button-primary"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <span className="loading-spinner"></span>
-                Publishing...
-              </>
-            ) : (
-              <>
-                <Plus className="w-4 h-4"/> Publish
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function emptyIfAny(v){
   return v === "Any" ? "" : v;
@@ -715,17 +534,30 @@ export default function App(){
   const [buyOpen, setBuyOpen] = useState(false); // State for buy form modal
   const [bidOpen, setBidOpen] = useState(false); // State for bid form modal
 
-   useEffect(() => {
-     console.log("Login modal state updated:", loginOpen);
-   }, [loginOpen]);
+  // New user state to track login status
+  const [user, setUser] = useState(null);
 
-   const handleLoginClick = () => {
-     console.log("Login button clicked - opening modal"); // Log to confirm button click
-     console.log("Login modal state before update:", loginOpen); // Log the state before update
-     setLoginOpen(true); // Open the login modal
-     console.log("Login modal state after update:", loginOpen); // Log the updated state
-     console.log("Setting loginOpen to true"); // Log the state change
-   }; // Handler for login button
+  useEffect(() => {
+    console.log("Login modal state updated:", loginOpen);
+  }, [loginOpen]);
+
+  const handleLoginClick = () => {
+    console.log("Login button clicked - opening modal");
+    setLoginOpen(true);
+  };
+
+  // New logout handler
+  const handleLogout = () => {
+    setUser(null);
+    setLoginOpen(false);
+    setSignupOpen(false);
+  };
+
+  // New login success handler
+  const handleLoginSuccess = (userData) => {
+    setUser(userData);
+    setLoginOpen(false);
+  };
 
   const filtered = useMemo(()=>{
     const q = query.trim().toLowerCase();
@@ -765,14 +597,21 @@ export default function App(){
         }}
         onBuy={() => setBuyOpen(true)}
         onSell={() => setSellOpen(true)}
+        user={user} // pass user state
+        onLogout={handleLogout} // pass logout handler
       />
       <Hero query={query} setQuery={setQuery} />
 
       {/* Render LoginForm conditionally */}
+
       {loginOpen && <LoginForm onClose={() => setLoginOpen(false)} onCreateAccount={() => { setLoginOpen(false); setSignupOpen(true); }} onLoginSuccess={() => setBidOpen(true)} />}
+
+      {loginOpen && <LoginForm onClose={() => setLoginOpen(false)} onCreateAccount={() => { setLoginOpen(false); setSignupOpen(true); }} onLoginSuccess={handleLoginSuccess} />}
+
       {/* Render SignupForm conditionally */}
       {signupOpen && <SignupForm onClose={() => setSignupOpen(false)} onAlreadyHaveAccount={() => { setSignupOpen(false); setLoginOpen(true); }} />}
 
+      
       <main className="max-w-7xl mx-auto px-4">
         <Filters filters={filters} setFilters={setFilters} />
 

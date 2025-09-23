@@ -34,7 +34,13 @@ const LoginForm = ({ onClose, onCreateAccount, onLoginSuccess }) => {
       const response = await axios.post(`${API_BASE_URL}/user/login`, loginData);
       // Handle success, e.g., store token
       console.log('Login successful:', response.data);
+
       onLoginSuccess && onLoginSuccess();
+
+      if (onLoginSuccess) {
+        onLoginSuccess(response.data);
+      }
+
       onClose();
     } catch (err) {
       console.error('Login error:', err);

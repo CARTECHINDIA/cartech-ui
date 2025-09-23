@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { X, Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
+import './ListNewCar.css';
 
-const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
+const MAKES = ["Any", "Toyota", "Hyundai", "Tata", "Maruti", "Honda", "Mahindra"];
+const FUELS = ["Any", "Petrol", "Diesel","CNG", "Electric"];
+const TRANSMISSIONS = ["Any", "Manual", "Automatic", "CVT"];
+
+function CreateListingDialog({ open, onOpenChange, onCreate }){
   const [form, setForm] = useState({
     regNumber: "",
     brand: "",
@@ -24,8 +29,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
     images: []
   });
   const [isLoading, setIsLoading] = useState(false);
-
-  const set = (patch) => setForm((f) => ({ ...f, ...patch }));
+  const set = (patch)=>setForm((f)=>({...f, ...patch}));
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
@@ -69,7 +73,11 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
       state: form.state || "",
       city: form.city || "",
       status: form.status || "",
-      images: form.images.length > 0 ? form.images : ["https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1200&auto=format&fit=crop"]
+      images: form.images.length > 0 ? form.images : ["https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1200&auto=format&fit=crop"],
+      seller: { name: "You", phone: "", email: "" },
+      postedAt: new Date().toISOString().slice(0,10),
+      description: `${form.manufactureYear} ${form.brand} ${form.model} listed via DriveMart.`,
+      featured: false
     };
 
     fetch('http://98.80.120.96:8080/cartech/car/add', {
@@ -87,7 +95,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
     })
     .then(data => {
       console.log('Car saved successfully:', data);
-      onSubmit(newCar);
+      onCreate(newCar);
       setIsLoading(false);
       onOpenChange(false);
     })
@@ -98,22 +106,18 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
     });
   };
 
-  const CONDITIONS = ["Used", "New", "Certified Pre-owned"];
-  const TRANSMISSIONS = ["Manual", "Automatic", "CVT"];
-
   return (
-    <div className={`modal-overlay sell-car-modal ${!open ? 'hidden' : ''}`}>
+    <div className={`modal-overlay create-listing-modal ${!open ? 'hidden' : ''}`}>
       <div className="modal-content">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h2 className="text-lg font-semibold">Sell Your Car</h2>
-            <p className="text-sm text-gray-600">List your car for sale with detailed information</p>
+            <h2 className="text-lg font-semibold">Create Listing</h2>
+            <p className="text-sm text-gray-600">Add your car details. You can edit later.</p>
           </div>
-          <button onClick={() => onOpenChange(false)} className="text-gray-500 hover:text-gray-700">
+          <button onClick={() => { console.log("CreateListingDialog close button clicked"); onOpenChange(false); }} className="text-gray-500 hover:text-gray-700">
             <X className="w-5 h-5" />
           </button>
         </div>
-
         <div className={`create-listing-form-grid ${isLoading ? 'loading' : ''}`}>
           <div className="filter-group">
             <label className="filter-label">Registration Number</label>
@@ -209,7 +213,9 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
               className="filter-input"
               disabled={isLoading}
             >
-              {TRANSMISSIONS.map((t) => (<option key={t} value={t}>{t}</option>))}
+              <option value="Manual">Manual</option>
+              <option value="Automatic">Automatic</option>
+              <option value="CVT">CVT</option>
             </select>
           </div>
           <div className="filter-group">
@@ -251,7 +257,9 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
               className="filter-input"
               disabled={isLoading}
             >
-              {CONDITIONS.map((c) => (<option key={c} value={c}>{c}</option>))}
+              <option value="Used">Used</option>
+              <option value="New">New</option>
+              <option value="Certified Pre-owned">Certified Pre-owned</option>
             </select>
           </div>
           <div className="filter-group">
@@ -339,10 +347,12 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
             </div>
           </div>
         </div>
-
         <div className="flex gap-2 justify-end mt-6 modal-actions">
           <button
-            onClick={() => onOpenChange(false)}
+            onClick={() => {
+              console.log("Cancel button clicked");
+              onOpenChange(false);
+            }}
             className="header-button header-button-secondary"
             disabled={isLoading}
           >
@@ -360,7 +370,7 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
               </>
             ) : (
               <>
-                <Plus className="w-4 h-4"/> List Car for Sale
+                <Plus className="w-4 h-4"/> Publish
               </>
             )}
           </button>
@@ -368,6 +378,6 @@ const SellCarForm = ({ open, onOpenChange, onSubmit }) => {
       </div>
     </div>
   );
-};
+}
 
-export default SellCarForm;
+export default CreateListingDialog;
