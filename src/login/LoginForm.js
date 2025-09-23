@@ -23,21 +23,46 @@ const LoginForm = ({ onClose, onCreateAccount, onLoginSuccess }) => {
     setLoading(true);
     setError('');
 
+    // Basic validation
+    if (!loginData.email.trim() || !loginData.password.trim()) {
+      setError('Please fill in all fields');
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post(`${API_BASE_URL}/user/login`, loginData);
       // Handle success, e.g., store token
       console.log('Login successful:', response.data);
+
+      onLoginSuccess && onLoginSuccess();
+
       if (onLoginSuccess) {
         onLoginSuccess(response.data);
       }
+
       onClose();
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else if (err.message) {
-        setError(err.message);
+      console.error('Login error:', err);
+
+      // Handle different types of errors
+      if (err.response) {
+        // Server responded with error status
+        if (err.response.status === 401) {
+          setError('Invalid email or password. Please check your credentials.');
+        } else if (err.response.status === 404) {
+          setError('Login service is currently unavailable. Please try again later.');
+        } else if (err.response.data && err.response.data.message) {
+          setError(err.response.data.message);
+        } else {
+          setError(`Login failed (${err.response.status}). Please try again.`);
+        }
+      } else if (err.request) {
+        // Network error
+        setError('Network error. Please check your internet connection and try again.');
       } else {
-        setError('An error occurred');
+        // Other error
+        setError('An unexpected error occurred. Please try again.');
       }
     }
     setLoading(false);

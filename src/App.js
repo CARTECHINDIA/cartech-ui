@@ -8,7 +8,11 @@ import LoginForm from './login/LoginForm';
 import SignupForm from './signup/SignupForm';
 import SellCarForm from './buy&sell form/SellCarForm';
 import BuyCarForm from './buy&sell form/BuyCarForm';
+
+import BidForm from './buy&sell form/BidForm';
+=======
 import CreateListingDialog from './list-new-car/ListNewCar';
+
 import React, { useMemo, useState, useEffect } from "react";
 import CityDropdown from './CityDropdown';
 import Header from './header/Navbar';
@@ -528,6 +532,7 @@ export default function App(){
   const [signupOpen, setSignupOpen] = useState(false); // New state for signup modal
   const [sellOpen, setSellOpen] = useState(false); // State for sell form modal
   const [buyOpen, setBuyOpen] = useState(false); // State for buy form modal
+  const [bidOpen, setBidOpen] = useState(false); // State for bid form modal
 
   // New user state to track login status
   const [user, setUser] = useState(null);
@@ -598,7 +603,11 @@ export default function App(){
       <Hero query={query} setQuery={setQuery} />
 
       {/* Render LoginForm conditionally */}
+
+      {loginOpen && <LoginForm onClose={() => setLoginOpen(false)} onCreateAccount={() => { setLoginOpen(false); setSignupOpen(true); }} onLoginSuccess={() => setBidOpen(true)} />}
+
       {loginOpen && <LoginForm onClose={() => setLoginOpen(false)} onCreateAccount={() => { setLoginOpen(false); setSignupOpen(true); }} onLoginSuccess={handleLoginSuccess} />}
+
       {/* Render SignupForm conditionally */}
       {signupOpen && <SignupForm onClose={() => setSignupOpen(false)} onAlreadyHaveAccount={() => { setSignupOpen(false); setLoginOpen(true); }} />}
 
@@ -666,6 +675,10 @@ export default function App(){
             condition: searchFilters.condition === "Any" ? "" : searchFilters.condition
           }));
         }}
+      />
+      <BidForm 
+        open={bidOpen} 
+        onOpenChange={setBidOpen} 
       />
     </div>
   );
