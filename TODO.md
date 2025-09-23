@@ -4,6 +4,8 @@
 - Fixed login form label visibility (changed white text to visible gray)
 - Enhanced login error handling with better user messages and validation
 - ✅ Added Min Increment field to bidding form (form state, API payload, and UI input field)
+- ✅ Integrated API endpoint `http://98.80.120.96:8080/cartech/bidding/schedule/1234` in bidding form
+- ✅ Updated bidding form to use `basePrice` instead of `startAmount` as per API requirements
 
 ## 📋 Implementation Summary
 ### Min Increment Field Added:

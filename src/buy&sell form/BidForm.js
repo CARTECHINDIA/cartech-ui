@@ -6,8 +6,8 @@ import './BidForm.css';
 const BidForm = ({ open, onOpenChange }) => {
   const [form, setForm] = useState({
     carSellingId: '',
-    startAmount: '',
-    minIncrement: '', 
+    basePrice: '',
+    minIncrement: '',
     startTime: '',
     endTime: '',
     status: 'SCHEDULED',
@@ -23,13 +23,13 @@ const BidForm = ({ open, onOpenChange }) => {
     try {
       const payload = {
         carSellingId: Number(form.carSellingId),
-        startAmount: Number(form.startAmount),
+        basePrice: Number(form.basePrice),
         minIncrement: Number(form.minIncrement),
         startTime: form.startTime,
         endTime: form.endTime,
         status: form.status,
       };
-      const response = await axios.post('http://98.80.120.96:8080/cartech/bidding', payload);
+      const response = await axios.post('http://98.80.120.96:8080/cartech/bidding/schedule/1234', payload);
       setMessage({ type: 'success', text: 'Bidding scheduled successfully!' });
       setIsLoading(false);
       onOpenChange(false);
@@ -68,11 +68,11 @@ const BidForm = ({ open, onOpenChange }) => {
           </div>
 
           <div className="filter-group">
-            <label className="filter-label">Start Amount (INR) *</label>
+            <label className="filter-label">Base Price (INR) *</label>
             <input
               type="number"
-              value={form.startAmount}
-              onChange={(e) => set({ startAmount: e.target.value })}
+              value={form.basePrice}
+              onChange={(e) => set({ basePrice: e.target.value })}
               className="filter-input"
               disabled={isLoading}
               required
