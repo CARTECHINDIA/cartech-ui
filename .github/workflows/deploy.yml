@@ -94,6 +94,6 @@ jobs:
             git reset --hard origin/master
 
             npm install --omit=dev
-
+            rm -rf node_modules/.cache
             pm2 restart cartech-ui || pm2 start npm --name "cartech-ui" -- start
             pm2 save
