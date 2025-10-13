@@ -119,57 +119,53 @@ const filteredCities = popularCities.filter((city) =>
         </div>
 
         {/* Center Section */}
-        <div className="hidden md:flex items-center gap-6 flex-1 ml-4 text-sm font-medium text-gray-800">
-          {/* Buy Used Car Dropdown Trigger */}
-          <div
-            className="relative flex items-center gap-1 py-3 cursor-pointer hover:text-blue-600 transition"
-            onMouseEnter={() => setOpenDropdown("buy")}
-            onMouseLeave={() => setOpenDropdown(null)}
-          >
-            <span>Buy Used Car</span>
-            <MdKeyboardArrowDown className="text-gray-500 text-lg" />
-          </div>
-
-          {/* Search Bar */}
-          <div className="flex items-center bg-gray-50 border border-gray-200 rounded-full px-4 py-2 shadow-sm focus-within:border-[#0463F0] transition flex-1 max-w-lg">
-            {/* <FaSearch className="text-gray-400 text-sm mr-2" /> */}
-            <input
-              type="text"
-              placeholder="Search your favourite cars..."
-              className="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400"
-            />
-            <button className="bg-[#0463F0] text-white p-2 rounded-full transition hover:bg-blue-700">
-              <FaSearch className="text-sm" />
-            </button>
-          </div>
+        <div className="hidden lg:flex items-center gap-6 flex-1 ml-4 text-sm font-medium text-gray-800">
+    {/* Buy Used Car Dropdown Trigger */}
+    <div
+      className="relative flex items-center gap-1 py-3 cursor-pointer hover:text-blue-600 transition"
+      onMouseEnter={() => setOpenDropdown("buy")}
+      onMouseLeave={() => setOpenDropdown(null)}
+    >
+      <span>Buy Used Car</span>
+      <MdKeyboardArrowDown className="text-gray-500 text-lg" />
+    </div>
+         <div className="flex items-center bg-gray-50 border border-gray-200 rounded-full px-4 py-2 shadow-sm focus-within:border-[#0463F0] transition flex-1 max-w-lg">
+      <input
+        type="text"
+        placeholder="Search your favourite cars..."
+        className="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400"
+      />
+      <button className="bg-[#0463F0] text-white p-2 rounded-full transition hover:bg-blue-700">
+        <FaSearch className="text-sm" />
+      </button>
+    </div>
         </div>
 
-        {/* Right Section */}
-        <div className="flex items-center gap-2 md:gap-5   ml-0 md:ml-5 relative">
-          {/* Call Button */}
-          <button className="hidden md:flex items-center gap-2 bg-black text-white px-3 md:px-4 py-2 rounded-md hover:bg-gray-800 transition">
-            <FaPhoneAlt className="text-sm" />
-            <span className="text-sm font-medium">Call us</span>
-          </button>
+      <div className="flex items-center gap-2 lg:gap-5 ml-0 lg:ml-5 relative">
+    {/* Hide on mobile & tablet */}
+    <button className="hidden lg:flex items-center gap-2 bg-black text-white px-3 lg:px-4 py-2 rounded-md hover:bg-gray-800 transition">
+      <FaPhoneAlt className="text-sm" />
+      <span className="text-sm font-medium">Call us</span>
+    </button>
 
           {/* Account Dropdown */}
-          <div
-            className="relative flex items-center gap-2 md:border-l md:pl-4 cursor-pointer"
-            onMouseEnter={() => setShowDropdown("account")}
-            onMouseLeave={() => setShowDropdown(null)}
-          >
-            <FaUserCircle className="text-2xl text-gray-600" />
-            <div className="text-sm hidden sm:block">
-              <p className="text-gray-500">Hello, Sign in</p>
-              <div className="flex items-center gap-1 font-medium text-gray-800 hover:text-blue-600">
-                <span>Account</span>
-                <MdKeyboardArrowDown className="text-gray-500 text-lg" />
-              </div>
-            </div>
+         <div
+      className="relative flex items-center gap-2 lg:border-l lg:pl-4 cursor-pointer"
+      onMouseEnter={() => setShowDropdown("account")}
+      onMouseLeave={() => setShowDropdown(null)}
+    >
+      <FaUserCircle className="text-2xl text-gray-600" />
+      <div className="text-sm hidden sm:block lg:block">
+        <p className="text-gray-500">Hello, Sign in</p>
+        <div className="flex items-center gap-1 font-medium text-gray-800 hover:text-blue-600">
+          <span>Account</span>
+          <MdKeyboardArrowDown className="text-gray-500 text-lg" />
+        </div>
+      </div>
 
             {/* Dropdown */}
             <div
-              className={`fixed md:absolute left-0 right-0 md:left-auto md:right-0 top-16 md:top-full md:mt-4 mt-2 w-full md:w-[330px] max-w-sm bg-white shadow-2xl rounded-2xl border border-gray-100 p-5 z-40 transition-all duration-200 ${
+              className={`fixed md:absolute left-0 right-0 md:left-auto md:right-0 top-16 md:top-full md:mt-1 mt-2 w-full md:w-[330px] max-w-sm bg-white shadow-2xl rounded-2xl border border-gray-100 p-5 z-40 transition-all duration-200 ${
                 showDropdown === "account"
                   ? "opacity-100 translate-y-0 visible"
                   : "opacity-0 -translate-y-2 invisible"
@@ -211,7 +207,7 @@ const filteredCities = popularCities.filter((city) =>
 )}
 
       {/* ✅ Bottom Navigation for Mobile */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex justify-around items-center py-2.5 md:hidden z-30">
+     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex justify-around items-center py-2.5 lg:hidden z-30">
         {[
           { icon: <MdLocationOn className="text-2xl" />, label: "City", onClick: () => setShowCityDialog(true) },
           { icon: <FaSearch className="text-lg" />, label: "Search", onClick: () => setShowMobileSearch(true) },
@@ -231,13 +227,12 @@ const filteredCities = popularCities.filter((city) =>
       </div>
 
 {openDropdown === "buy" && (
-  <div
-    className="fixed md:absolute left-0 right-0 md:top-[65px] top-[65px] bg-white shadow-2xl md:rounded-b-2xl border-t border-gray-200 z-40 py-4 md:py-8 px-4 md:px-10 animate-fadeIn flex flex-col md:items-start md:flex-row gap-6 md:gap-10 overflow-y-auto max-h-[80vh] md:max-h-none"
+<div className="fixed lg:absolute left-0 right-0 lg:top-[65px] top-[65px] bg-white shadow-2xl lg:rounded-b-2xl border-t lg:items-start border-gray-200 z-40 py-4 lg:py-8 px-4 lg:px-10 animate-fadeIn flex flex-col lg:flex-row gap-6 lg:gap-10 overflow-y-auto max-h-[80vh]"
     onMouseEnter={() => setOpenDropdown("buy")}
     onMouseLeave={() => setOpenDropdown(null)}
   >
     {/* Left Section */}
-    <div className="w-full md:w-[35%] bg-gray-50 rounded-xl p-5 shadow-sm flex-shrink-0">
+    <div className="w-full lg:w-[35%] bg-gray-50 rounded-xl p-5 shadow-sm flex-shrink-0">
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-semibold text-gray-900 text-[16px]">
           Buy Used Cars in {selectedCity}
@@ -274,7 +269,7 @@ const filteredCities = popularCities.filter((city) =>
     </div>
 
     {/* Right Section */}
-    <div className="w-full md:w-[65%] grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="w-full lg:w-[65%] grid grid-cols-1 sm:grid-cols-2 gap-4">
       {activeCategory === "Browse by City"
         ? popularCities.map((city, idx) => (
             <div
