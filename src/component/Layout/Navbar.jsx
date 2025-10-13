@@ -101,9 +101,9 @@ const filteredCities = popularCities.filter((city) =>
 );
   return (
     <>
-      {/* Navbar */}
+ 
       <nav className="w-full bg-white shadow-md flex items-center justify-between px-3 md:px-8 py-3 relative z-20">
-        {/* Left Section */}
+  
         <div className="flex items-center gap-3 md:gap-8">
           <img src={logo} alt="Logo" className="h-8 md:h-14 object-contain" />
           <div
@@ -118,9 +118,9 @@ const filteredCities = popularCities.filter((city) =>
           </div>
         </div>
 
-        {/* Center Section */}
+     
         <div className="hidden lg:flex items-center gap-6 flex-1 ml-4 text-sm font-medium text-gray-800">
-    {/* Buy Used Car Dropdown Trigger */}
+ 
     <div
       className="relative flex items-center gap-1 py-3 cursor-pointer hover:text-blue-600 transition"
       onMouseEnter={() => setOpenDropdown("buy")}
@@ -142,13 +142,13 @@ const filteredCities = popularCities.filter((city) =>
         </div>
 
       <div className="flex items-center gap-2 lg:gap-5 ml-0 lg:ml-5 relative">
-    {/* Hide on mobile & tablet */}
+ 
     <button className="hidden lg:flex items-center gap-2 bg-black text-white px-3 lg:px-4 py-2 rounded-md hover:bg-gray-800 transition">
       <FaPhoneAlt className="text-sm" />
       <span className="text-sm font-medium">Call us</span>
     </button>
 
-          {/* Account Dropdown */}
+         
          <div
       className="relative flex items-center gap-2 lg:border-l lg:pl-4 cursor-pointer"
       onMouseEnter={() => setShowDropdown("account")}
@@ -163,7 +163,7 @@ const filteredCities = popularCities.filter((city) =>
         </div>
       </div>
 
-            {/* Dropdown */}
+            
             <div
               className={`fixed md:absolute left-0 right-0 md:left-auto md:right-0 top-16 md:top-full md:mt-1 mt-2 w-full md:w-[330px] max-w-sm bg-white shadow-2xl rounded-2xl border border-gray-100 p-5 z-40 transition-all duration-200 ${
                 showDropdown === "account"
@@ -176,7 +176,7 @@ const filteredCities = popularCities.filter((city) =>
               <button
   className="w-full bg-[#0463F0] text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition"
   onClick={() => {
-    setShowLoginDialog(true); // ✅ Show login popup
+    setShowLoginDialog(true);  
   }}
 >
   Login / Sign Up
@@ -206,7 +206,7 @@ const filteredCities = popularCities.filter((city) =>
   <MobileLoginDialog onClose={() => setShowLoginDialog(false)} />
 )}
 
-      {/* ✅ Bottom Navigation for Mobile */}
+   
      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex justify-around items-center py-2.5 lg:hidden z-30">
         {[
           { icon: <MdLocationOn className="text-2xl" />, label: "City", onClick: () => setShowCityDialog(true) },
@@ -267,8 +267,7 @@ const filteredCities = popularCities.filter((city) =>
         ))}
       </ul>
     </div>
-
-    {/* Right Section */}
+ 
     <div className="w-full lg:w-[65%] grid grid-cols-1 sm:grid-cols-2 gap-4">
       {activeCategory === "Browse by City"
         ? popularCities.map((city, idx) => (
@@ -299,7 +298,7 @@ const filteredCities = popularCities.filter((city) =>
   </div>
 )}
 
-  {/* ✅ City Dialog */}
+  
 {showCityDialog && (
   <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
     <div className="bg-white rounded-2xl w-full max-w-sm sm:max-w-2xl md:max-w-4xl p-6 md:p-8 shadow-2xl mx-3 max-h-[85vh] overflow-y-auto">
@@ -353,7 +352,7 @@ const filteredCities = popularCities.filter((city) =>
 )}
 
 
-      {/* ✅ Mobile Search Dialog */}
+      
       {showMobileSearch && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl w-full max-w-sm mx-4 p-6 shadow-2xl">
@@ -382,7 +381,7 @@ const filteredCities = popularCities.filter((city) =>
         </div>
       )}
 
-      {/* Fade Animation */}
+  
       <style>
         {`
           .animate-fadeIn {
