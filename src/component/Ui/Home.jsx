@@ -113,7 +113,7 @@ const Home = () => {
           <div>
             <label className="text-gray-500 text-sm font-medium">Select Maker</label>
             <select className="w-full mt-2 border border-gray-200 rounded-md px-3 sm:px-4 py-2 font-semibold text-gray-700 focus:ring-2 focus:ring-[#0463F0] focus:outline-none">
-              <option>- Maker -</option>
+              <option>- Maker -</option> 
               <option>Toyota</option>
               <option>BMW</option>
               <option>Audi</option>
