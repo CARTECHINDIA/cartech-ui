@@ -5,6 +5,7 @@ import Home from './component/Ui/Home';
 import UsedCars from './component/Ui/UsedCars';
 import Banner from './component/Ui/Banner';
 import CustomerReview from './component/Ui/CustomerReview';
+import Footer from './component/Layout/Footer';
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
  <Navbar/>
  <Home/>
  <UsedCars/>
- {/* <Banner/>
- <CustomerReview/> */}
+  <Banner/>
+  <CustomerReview/>
+  <Footer/>
     </div>
   );
 }
