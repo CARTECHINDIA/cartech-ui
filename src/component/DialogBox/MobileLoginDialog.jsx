@@ -62,27 +62,36 @@ const handleLoginSubmit = async (e) => {
       setIsLoading(false);  // Stop loading
     }
   };
-  // Handle Register Submit → Show OTP after success
-  const handleRegisterSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);  // Start loading
-    const form = new FormData();
-    Object.entries(registerData).forEach(([key, value]) => {
+const handleRegisterSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);  // Start loading
+  const form = new FormData();
+
+  // Loop through registerData and append only valid fields
+  Object.entries(registerData).forEach(([key, value]) => {
+    if (key !== 'document') {
+      // Append all fields except 'document'
       form.append(key, value);
-    });
-    try {
-      const res = await registerUser(form);
-      console.log("✅ Registration success:", res);
-      toast.success("Registration successful! Please verify OTP.");  // Show success toast
-      setUserEmail(registerData.email);  // Store email for OTP verify
-      setShowOTP(true);  // Show OTP screen
-    } catch (err) {
-      console.error("❌ Registration failed:", err);
-      toast.error(`Registration failed: ${err.response?.data?.message || err.message || 'Unknown error'}`);  // Show error toast, e.g., "Email already exists!"
-    } finally {
-      setIsLoading(false);  // Stop loading
+    } else if (key === 'document' && value instanceof File) {
+      // Only append 'document' if it's a File object (e.g., user selected a file)
+      form.append(key, value);
     }
-  };
+    // If 'document' is null or not a File, it gets skipped
+  });
+
+  try {
+    const res = await registerUser(form);
+    console.log("✅ Registration success:", res);
+    toast.success("Registration successful! Please verify OTP.");  // Show success toast
+    setUserEmail(registerData.email);  // Store email for OTP verify
+    setShowOTP(true);  // Show OTP screen
+  } catch (err) {
+    console.error("❌ Registration failed:", err);
+    toast.error(`Registration failed: ${err.response?.data?.message || err.message || 'Unknown error'}`);  // Show error toast
+  } finally {
+    setIsLoading(false);  // Stop loading
+  }
+};
   const handleOtpVerify = async (e) => {
     e.preventDefault();
     setIsLoading(true);  // Start loading
