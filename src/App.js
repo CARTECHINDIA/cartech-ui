@@ -1,21 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
-import Navbar from './component/Layout/Navbar';
-import Home from './component/Ui/Home';
-import UsedCars from './component/Ui/UsedCars';
-import Banner from './component/Ui/Banner';
-import CustomerReview from './component/Ui/CustomerReview';
-import Footer from './component/Layout/Footer';
+import Main from './component/Layout/Main';
+import NavFoot from './component/Layout/NavFoot';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';   
+import ScrollToTop from './ScrollToTop';
+ 
 
 function App() {
   return (
     <div>
- <Navbar/>
- <Home/>
- <UsedCars/>
-  <Banner/>
-  <CustomerReview/>
-  <Footer/>
+    <BrowserRouter>
+    <ScrollToTop/>
+    <Routes>
+      <Route path="/" element={<NavFoot/>}>
+      <Route index element={<Main/>}/>
+      {/* <Route path="about"element={<Aboutus/>}/> */}
+  
+       </Route>
+      </Routes>    
+    </BrowserRouter>
     </div>
   );
 }
